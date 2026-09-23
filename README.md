@@ -1,9 +1,9 @@
 # Tabu Search – eine Lieferrunde, die sich merkt, was sie gerade getan hat – Streamlit-Demo
 
-**[→ Demo live ausprobieren](#)** (Deploy offen)
+**[→ Demo live ausprobieren](https://sebastianhanisch-tabu-search-demo.streamlit.app/)**
 
 Fünftes Stück der **Trajektorien-Metaheuristiken-Linie** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning":
-dieselbe Rundtour wie in der [hill-climbing-demo](../hill-climbing-demo), der [simulated-annealing-demo](../simulated-annealing-demo), der [iterated-local-search-demo](../iterated-local-search-demo) und der [variable-neighborhood-search-demo](../variable-neighborhood-search-demo) (ein Depot, n Kundenstopps in einem 100 × 100-km-Gebiet), dieselbe untere Schranke.
+dieselbe Rundtour wie in der [hill-climbing-demo](https://sebastianhanisch-hill-climbing-demo.streamlit.app/), der [simulated-annealing-demo](https://sebastianhanisch-simulated-annealing-demo.streamlit.app/), der [iterated-local-search-demo](https://sebastianhanisch-iterated-local-search-demo.streamlit.app/) und der [variable-neighborhood-search-demo](https://sebastianhanisch-variable-neighborhood-search-demo.streamlit.app/) (ein Depot, n Kundenstopps in einem 100 × 100-km-Gebiet), dieselbe untere Schranke.
 
 **Einordnung in die Reihe:** **Tabu Search** (Glover 1986, formalisiert 1989/90) ist ein direktes Kind von Hill Climbing, wie die vier vorigen Stücke - aber mit einem grundlegend anderen Rechenprofil. ILS und VNS bewerten je Iteration nur eine **Kandidatenliste** rund um eine gezielte Störung (billig, viele Iterationen passen ins Budget). Tabu Search bewertet wie Hill Climbing selbst jede Iteration die **volle** Nachbarschaft (teuer, wenige Iterationen passen ins Budget) - nimmt aber immer den besten Zug, auch wenn er die Tour verlängert, und verhindert mit einem **deterministischen Gedächtnis** (die zuletzt entfernten Kanten sind vorübergehend tabu), dass dieser Zug sofort wieder rückgängig gemacht wird.
 ```
@@ -52,7 +52,7 @@ Kein Nachbarschafts-Regler (bewusst nur 2-opt - das Tabu-Attribut ist an Kanten 
 
 ## Modell und Verfahren
 
-- **Instanz, Nachbarschaften, Abstieg, Schranke** (`tabu_scenario.py`, `tabu_tour.py`): wortgleiche Kopien aus der [hill-climbing-demo](../hill-climbing-demo) (per Test gegen eingefrorene Werte) - Tabu Search braucht keine Kandidatenliste/Doppelbrücke der ILS/VNS-Familie, sondern direkt die volle, vektorisierte 2-opt-Bewertung der Wurzel-Demo.
+- **Instanz, Nachbarschaften, Abstieg, Schranke** (`tabu_scenario.py`, `tabu_tour.py`): wortgleiche Kopien aus der [hill-climbing-demo](https://sebastianhanisch-hill-climbing-demo.streamlit.app/) (per Test gegen eingefrorene Werte) - Tabu Search braucht keine Kandidatenliste/Doppelbrücke der ILS/VNS-Familie, sondern direkt die volle, vektorisierte 2-opt-Bewertung der Wurzel-Demo.
 - **Tabu-Suchschleife** (`tabu_algorithm.py`): jede Iteration wird die volle 2-opt-Nachbarschaft bewertet (vektorisiert); die zwei von einem Zug entfernten Kanten sind für `Tenure` Iterationen tabu (ein Zug, der eine davon wiederherstellt, ist verboten); Aspirationskriterium überschreibt Tabu bei einem neuen Bestwert; Notfall-Überschreibung, falls ausnahmsweise alle Züge tabu sind. Immer der beste erlaubte Zug wird ausgeführt, auch wenn er die Tour verlängert. Deterministisch - kein Zufall im Kern.
 - **Hill Climbing mit Neustarts** (`tabu_evaluation.py`): Abstiege aus zufälligen Startlösungen, voller Rescan (wie in der Wurzel-Demo), bis das Budget erreicht ist. Kein Kandidatenlisten-Vergleich wie bei ILS/VNS: Tabu Search ist selbst schon "voller Rescan"-nativ, ein DLB-Vergleich wäre keine faire Gegenüberstellung (siehe [[hill-climbing-demo]] für den DLB-Fund).
 - **Auswertung** (`tabu_evaluation.py`): Kennzahlen, Urteil, Sweeps über feste Instanzen × Ketten, Streuung, Skalierung.
