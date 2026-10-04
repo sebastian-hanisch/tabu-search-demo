@@ -33,7 +33,7 @@ DEFAULT_BUDGET = 200000
 #   Nähe eines Optimums zu kommen (katastrophal: 55-288 % über der Schranke). ERST ab ~100 Tausend erreicht Tabu Search die Güte eines einzelnen Hill-
 #   Climbing-Abstiegs, ERST ab 200 Tausend schlägt es Hill Climbing mit Neustarts (voller Rescan) klar; bei 2 Millionen liegt es mit den Neustarts gleichauf.
 #   Das ist die deutlichste "teure Iterationen"-Geschichte der ganzen Linie - kein anderes Stück braucht ein derart hohes Mindestbudget, um überhaupt
-#   konkurrenzfähig zu werden. Bei 200 Stopps (n²/2 ~ 20 Tausend je Iteration) ist die Lücke bei 1 Million Vorschlägen (nur ~50 Iterationen) noch 318 %.
+#   konkurrenzfähig zu werden. Bei 200 Stopps (n²/2 ~ 20 Tausend je Iteration) ist die Lücke bei 1 Million Vorschlägen (nur ~50 Iterationen) noch 307 %.
 # "Ohne Tabu" (tenure=0) landet fast exakt bei einem einzelnen Hill-Climbing-Abstieg (6.72 % gegen 6.72 %) - ohne Gedächtnis kommt die Suche über das
 #   erste lokale Optimum kaum hinaus (pendelt danach zwischen zwei Touren, siehe Tests), bringt aber keinen Schaden gegenüber einem reinen Abstieg.
 
@@ -57,9 +57,9 @@ PRESET_HELP = {
     "Zu kleines Budget (25 Tausend)": "Nur 25 Tausend Vorschläge: 155.1 % über der Schranke - bei nur rund 15 Iterationen (jede bewertet die volle n²/2-Nachbarschaft) kommt die Suche von einer zufälligen Startlösung kaum voran. Ein einzelner Hill-Climbing-Abstieg braucht dieselbe Größenordnung Bewertungen, erreicht aber 7.9 %.",
     "Ohne Tabu (Tenure 0)": "Keine Kante bleibt gesperrt: 7.54 % über der Schranke, fast identisch mit einem einzelnen Hill-Climbing-Abstieg (7.85 %) - ohne Gedächtnis pendelt die Suche, sobald sie das erste lokale Optimum erreicht, nur noch zwischen zwei Touren.",
     "Zu lange Tenure (200)": "Kanten bleiben 200 Iterationen gesperrt (bei nur rund 114 Iterationen insgesamt praktisch für immer): 4.52 % über der Schranke, schlechter als die kalibrierte Tenure 20 (4.19 %) - zu viele sinnvolle Züge bleiben blockiert.",
-    "Nächster Nachbar als Start": "Eine gute Startlösung hilft Tabu Search sichtbar (anders als bei ILS/VNS): 0.64 % über der Schranke gegen 3.74 % bei zufälliger Startlösung - bei nur rund 114 teuren Iterationen zählt jeder Startvorteil.",
+    "Nächster Nachbar als Start": "Eine gute Startlösung hilft Tabu Search sichtbar (anders als bei ILS/VNS): 1.50 % über der Schranke gegen 4.19 % bei zufälliger Startlösung - bei nur rund 114 teuren Iterationen zählt jeder Startvorteil.",
     "Großes Budget (1 Million)": "1 Million Vorschläge, rund 566 Iterationen: 2.31 % über der Schranke - Hill Climbing mit Neustarts liegt bei 2.54 %, praktisch gleichauf.",
-    "Große Instanz (200 Stopps, 1 Million)": "200 Stopps: jede Iteration kostet rund 20 Tausend Bewertungen (n²/2), 1 Million Vorschläge reichen nur für rund 50 Iterationen - die Suche kommt von einer zufälligen Startlösung praktisch nicht voran (318 % über der Schranke, gegen 10.7 % für Hill Climbing mit Neustarts).",
+    "Große Instanz (200 Stopps, 1 Million)": "200 Stopps: jede Iteration kostet rund 20 Tausend Bewertungen (n²/2), 1 Million Vorschläge reichen nur für rund 50 Iterationen - die Suche kommt von einer zufälligen Startlösung praktisch nicht voran (307 % über der Schranke, gegen 9.5 % für Hill Climbing mit Neustarts).",
 }
 # Urteile, die bei diesem Preset über verschiedene Instanzen und Ketten-Seeds vorkommen (jedes Preset wird über mehrere Instanzen x 2 Ketten gemessen)
 PRESET_EXPECTED_BANDS = {

@@ -24,8 +24,8 @@ Die **Tabu-Tenure** (wie lange eine entfernte Kante gesperrt bleibt) hat einen k
 | **Budget** | ❌❗ Bei 10 / 25 / 50 Tausend Vorschlägen: **287.8 / 155.1 / 54.7 %** über der Schranke (katastrophal - nur 6-29 Iterationen). Bei 100 Tausend: **7.9 %** (≈ ein Abstieg). Bei 200 / 500 Tausend / 1 / 2 Millionen: **4.2 / 3.1 / 2.3 / 1.9 %** - ab hier klar besser als Neustarts, bei 2 Millionen wieder gleichauf |
 | **Tabu-Tenure** | ⚠️ 0 / 5 / 10 / 20 / 50 / 200: **7.54 / 6.12 / 5.18 / 4.19 / 4.52 / 4.52 %** - ein Sweet Spot bei 20, kein "länger ist sicherer" |
 | **Ohne Tabu (Tenure 0)** | ❌ **7.54 %**, fast identisch mit einem einzelnen Hill-Climbing-Abstieg (7.85 %) - die Suche pendelt nach dem ersten lokalen Optimum zwischen zwei Touren, ohne Fortschritt |
-| **Größe** | ❌❗ 200 Stopps, 1 Million Vorschläge (nur ~50 Iterationen, jede kostet ~20 Tausend Bewertungen): **318 %** über der Schranke gegen 10.7 % für Hill Climbing mit Neustarts - skaliert deutlich schlechter als die Kandidatenlisten-Familie |
-| **Startlösung** | ✅ Nächster Nachbar **0.64 %** gegen zufällig **3.74 %** - anders als bei ILS/VNS zählt die Startlösung hier deutlich (bei nur ~114 teuren Iterationen ist ein Vorsprung schwer aufzuholen) |
+| **Größe** | ❌❗ 200 Stopps, 1 Million Vorschläge (nur ~50 Iterationen, jede kostet ~20 Tausend Bewertungen): **307 %** über der Schranke gegen 9.5 % für Hill Climbing mit Neustarts - skaliert deutlich schlechter als die Kandidatenlisten-Familie |
+| **Startlösung** | ✅ Nächster Nachbar **1.50 %** gegen zufällig **4.19 %** - anders als bei ILS/VNS zählt die Startlösung hier deutlich (bei nur ~114 teuren Iterationen ist ein Vorsprung schwer aufzuholen) |
 
 ## Was die Demo zeigt
 
@@ -62,8 +62,8 @@ Kein Nachbarschafts-Regler (bewusst nur 2-opt - das Tabu-Attribut ist an Kanten 
 - **Vorab-Vermutung: "deterministisches Gedächtnis schlägt zufällige/perturbative Verfahren bei gleichem Budget"** – **weder klar bestätigt noch widerlegt, sondern budgetabhängig**: bei knappem Budget (unter 100 Tausend) verliert Tabu Search KATASTROPHAL, nicht nur knapp - die volle Nachbarschaftsbewertung (~n²/2 Bewertungen je Iteration) lässt bei 10-50 Tausend Vorschlägen nur 6-29 Iterationen zu, zu wenig für irgendeinen echten Fortschritt von einer zufälligen Startlösung (55-288 % über der Schranke). Das ist die deutlichste "teure Iterationen"-Geschichte der ganzen Linie: kein anderes Stück (SA, ILS, VNS) hat ein derart hohes Mindestbudget, unter dem es komplett unbrauchbar wird.
   Erst ab 100 Tausend Vorschlägen erreicht Tabu Search die Güte eines einzelnen Hill-Climbing-Abstiegs, erst ab 200 Tausend schlägt es Hill Climbing mit Neustarts klar - und bei sehr großem Budget (2 Millionen) nähert sich der Vorsprung wieder auf null an. Das Fazit ist also nicht "Gedächtnis gewinnt", sondern "Gedächtnis gewinnt in einem mittleren Budgetfenster, wenn man sich seine teuren Iterationen leisten kann".
 - **Die Tabu-Tenure ist ein Sweet-Spot-Parameter**, nicht "länger ist sicherer" - Tenure 20 schlägt sowohl Tenure 0 (kein Gedächtnis) als auch Tenure 200 (zu lange gesperrt). Dieselbe Lehre wie SA's Temperatur, ILS' Störstärke und VNS' k_max, hier zum fünften Mal bestätigt.
-- **Eine gute Startlösung hilft deutlich** (Nächster Nachbar 0.64 % gegen zufällig 3.74 %) - ein auffälliger Kontrast zu ILS/VNS, wo die Startlösung praktisch irrelevant war (die vielen billigen Iterationen dort vergessen sie schnell; die wenigen teuren Iterationen hier können das nicht).
-- **Skaliert schlechter mit der Instanzgröße** als die Kandidatenlisten-Familie: bei 200 Stopps kostet eine Iteration rund 20 Tausend Bewertungen, 1 Million Vorschläge reichen nur für rund 50 Iterationen (318 % über der Schranke) - der naheliegende nächste Schritt wäre eine Kandidatenlisten-Variante von Tabu Search, hier bewusst nicht gebaut (siehe Grenzen-Tabelle).
+- **Eine gute Startlösung hilft deutlich** (Nächster Nachbar 1.50 % gegen zufällig 4.19 %) - ein auffälliger Kontrast zu ILS/VNS, wo die Startlösung praktisch irrelevant war (die vielen billigen Iterationen dort vergessen sie schnell; die wenigen teuren Iterationen hier können das nicht).
+- **Skaliert schlechter mit der Instanzgröße** als die Kandidatenlisten-Familie: bei 200 Stopps kostet eine Iteration rund 20 Tausend Bewertungen, 1 Million Vorschläge reichen nur für rund 50 Iterationen (307 % über der Schranke) - der naheliegende nächste Schritt wäre eine Kandidatenlisten-Variante von Tabu Search, hier bewusst nicht gebaut (siehe Grenzen-Tabelle).
 - **Synthetische Instanzen:** euklidisch, gleichverteilt oder in fünf Gruppen, ein Fahrzeug, keine Kapazitäten oder Zeitfenster. Zeiten hängen vom Rechner und der Python-Version ab (die Tests prüfen nur Größenordnungen).
 
 ## Verifikation
@@ -105,6 +105,4 @@ pytest tests/ -v
 
 ---
 
-Teil des [Operations-Research-Demo-Portfolios](https://sebastianhanisch.net/demos.html) von
-[Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning.
-Interesse an einer maßgeschneiderten Lösung? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html).
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Trajektorien-Metaheuristiken: HC bis ALNS](https://sebastianhanisch.net/konzepte-trajektorien-metaheuristiken.html).

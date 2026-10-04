@@ -94,7 +94,7 @@ def test_zero_tenure_never_triggers_the_emergency_override():
 
 def test_large_instance_scales_far_worse_than_the_candidate_list_family():
     row = ev.run_config(ev.Settings(n=200), budget=1000000)
-    near(row["gap"], 318.0, 100.0)
+    near(row["gap"], 307.0, 100.0)
     assert row["gap"] > row["hcr"] + 100.0
 
 
@@ -104,7 +104,9 @@ def test_large_instance_scales_far_worse_than_the_candidate_list_family():
 def test_a_good_start_solution_clearly_helps_unlike_ils_and_vns():
     random_ = cfg(start="random")
     nearest = cfg(start="nearest")
-    assert nearest["gap"] < random_["gap"] - 1.0                    # anders als bei ILS/VNS zaehlt die Startloesung hier deutlich
+    near(nearest["gap"], 1.50, 1.0)
+    near(random_["gap"], 4.19, 1.5)
+    assert nearest["gap"] < random_["gap"] - 1.0                   # anders als bei ILS/VNS zaehlt die Startloesung hier deutlich
 
 
 def test_bound_matches_the_frozen_reference():

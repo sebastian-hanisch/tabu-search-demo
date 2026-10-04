@@ -124,7 +124,7 @@ with st.sidebar:
     )
     start = st.radio(
         "Startlösung", list(C.START_LABELS), key="start_radio", format_func=lambda k: C.START_LABELS[k], horizontal=True,
-        help="Zufällige Reihenfolge oder Nächster Nachbar. Anders als bei ILS/VNS zählt eine gute Startlösung hier sichtbar: bei nur rund 114 teuren Iterationen (200 Tausend Vorschläge) ist ein Vorsprung schwerer aufzuholen (0.64 % gegen 3.74 %).",
+        help="Zufällige Reihenfolge oder Nächster Nachbar. Anders als bei ILS/VNS zählt eine gute Startlösung hier sichtbar: bei nur rund 114 teuren Iterationen (200 Tausend Vorschläge) ist ein Vorsprung schwerer aufzuholen (1.50 % gegen 4.19 %).",
     )
     seed = st.number_input("Zufalls-Seed der Instanz", *bounds("seed_input"), key="seed_input", step=1)
     st.button("🎲 Neue Instanz generieren", width="stretch", on_click=randomize_seed, help="Würfelt einen neuen Seed für die Lage der Stopps.")
@@ -318,7 +318,7 @@ if st.session_state.get("scaling_on"):
         sc = _scaling(replace(base_sweep, n=C.DEFAULT_N))
     st.plotly_chart(build_scaling(sc), width="stretch", key="scaling_chart")
     st.caption("Mittel über 5 feste Instanzen × 3 Ketten (Einstellungen wie in der Seitenleiste außer Stopps und Budget). Eine Iteration kostet rund n²/2 Bewertungen - bei 200 Stopps schon rund 20 Tausend, bei 1 Million Vorschlägen also nur rund 50 Iterationen: "
-               "**318 %** über der Schranke, weit hinter Hill Climbing mit Neustarts (10.7 %). Tabu Search skaliert deutlich schlechter mit der Instanzgröße als die Kandidatenlisten-Familie (ILS, VNS).")
+               "**307 %** über der Schranke, weit hinter Hill Climbing mit Neustarts (9.5 %). Tabu Search skaliert deutlich schlechter mit der Instanzgröße als die Kandidatenlisten-Familie (ILS, VNS).")
 
 st.markdown("---")
 
@@ -331,8 +331,8 @@ st.markdown(
 |---|---|---|
 | **Das Budget reicht für genug teure Iterationen** | Bei 25 Tausend Vorschlägen (60 Stopps, nur ~15 Iterationen): **155 %** über der Schranke - katastrophal. Erst ab 100 Tausend erreicht Tabu Search die Güte eines einzelnen Hill-Climbing-Abstiegs, erst ab 200 Tausend schlägt es Hill Climbing mit Neustarts. | **ILS/VNS** (viele billige Iterationen statt weniger teurer) |
 | **Die Tenure passt zur Instanz** | Ohne Gedächtnis (Tenure 0): **7.54 %**, kaum besser als ein Abstieg (7.85 %) - die Suche pendelt, sobald sie ein lokales Optimum erreicht. Zu lange Tenure (200 bei nur ~114 Iterationen): **4.52 %**, schlechter als die kalibrierte Tenure 20 (4.19 %) - zu viele Züge bleiben blockiert. | Kein direkter Nachfolger; dieselbe Lehre wie SA's Temperatur, ILS' Störstärke, VNS' k_max |
-| **Jede Iteration ist bezahlbar** | Bei 200 Stopps kostet eine Iteration rund 20 Tausend Bewertungen - 1 Million Vorschläge reichen nur für ~50 Iterationen (**318 %** über der Schranke). Skaliert deutlich schlechter als die Kandidatenlisten-Familie. | **Kandidatenliste + Don't-Look-Bits** (aus der Hill-Climbing-Demo: dieselbe Idee, nur die geänderte Umgebung neu bewerten, statt immer die volle Nachbarschaft) |
-| **Die Startlösung zählt weniger als das Gedächtnis** | Anders als bei ILS/VNS: Nächster Nachbar (0.64 %) schlägt eine zufällige Startlösung (3.74 %) deutlich - bei nur rund 114 teuren Iterationen zählt jeder Vorsprung. | (kein Nachfolger nötig - eine gute Konstruktionsheuristik hilft überall, aber hier besonders) |
+| **Jede Iteration ist bezahlbar** | Bei 200 Stopps kostet eine Iteration rund 20 Tausend Bewertungen - 1 Million Vorschläge reichen nur für ~50 Iterationen (**307 %** über der Schranke). Skaliert deutlich schlechter als die Kandidatenlisten-Familie. | **Kandidatenliste + Don't-Look-Bits** (aus der Hill-Climbing-Demo: dieselbe Idee, nur die geänderte Umgebung neu bewerten, statt immer die volle Nachbarschaft) |
+| **Die Startlösung zählt weniger als das Gedächtnis** | Anders als bei ILS/VNS: Nächster Nachbar (1.50 %) schlägt eine zufällige Startlösung (4.19 %) deutlich - bei nur rund 114 teuren Iterationen zählt jeder Vorsprung. | (kein Nachfolger nötig - eine gute Konstruktionsheuristik hilft überall, aber hier besonders) |
 """
 )
 st.caption(
@@ -365,6 +365,6 @@ Implementiert in `tabu_algorithm.py` (die Suchschleife: volle Nachbarschaft, Tab
 st.markdown("---")
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Trajektorien-Metaheuristiken: HC bis ALNS](https://sebastianhanisch.net/konzepte-trajektorien-metaheuristiken.html)."
 )
