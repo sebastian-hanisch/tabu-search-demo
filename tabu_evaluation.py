@@ -1,5 +1,5 @@
 """Auswertung der Tabu-Search-Demo: ein Lauf gegen einen Hill-Climbing-Abstieg (beste Verbesserung, dieselbe Zugauswahl wie Tabu Search
-ohne Gedächtnis) und Hill Climbing mit Neustarts (voller Rescan, wie in der Wurzel-Demo), gleiches Bewertungsbudget. Sweeps,
+ohne Gedächtnis; ohne Bewertungsbudget, bis zum lokalen Optimum) und Hill Climbing mit Neustarts (voller Rescan, wie in der Wurzel-Demo), gleiches Bewertungsbudget. Sweeps,
 Vergleichstabellen, Kettenstreuung.
 
 Der Abstand zur Schranke ist der Abstand zu einer *unteren* Schranke der kürzesten Tour (1-Baum, Held-Karp). Ein Vorschlag ist ein

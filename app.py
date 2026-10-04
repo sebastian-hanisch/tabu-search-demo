@@ -81,7 +81,7 @@ with st.expander("So funktioniert Tabu Search", expanded=True):
 2. **Immer der beste Zug.** Anders als Hill Climbing wird IMMER der beste verfügbare Zug ausgeführt, auch wenn er die Tour verlängert - so kommt die Suche über ein lokales Optimum hinaus.
 3. **Tabu-Liste.** Die zwei von einem Zug **entfernten** Kanten sind für `Tenure` Iterationen verboten (ein Zug, der eine davon wiederherstellen würde, ist tabu) - sonst würde der nächste Zug den eben gemachten sofort rückgängig machen.
 4. **Aspiration.** Ein tabuer Zug wird trotzdem ausgeführt, wenn er die beste je gefundene Tour verbessert. Sind ausnahmsweise alle Züge tabu, wird der beste davon trotzdem ausgeführt (Notfall).
-5. **Bewertung.** Der Abstand zur **1-Baum-Schranke**, wie in den Geschwister-Demos. Verglichen wird mit **einem Hill-Climbing-Abstieg** und **Hill Climbing mit Neustarts** (voller Rescan) bei gleichem Bewertungsbudget.
+5. **Bewertung.** Der Abstand zur **1-Baum-Schranke**, wie in den Geschwister-Demos. Verglichen wird mit **einem Hill-Climbing-Abstieg** und **Hill Climbing mit Neustarts** (voller Rescan). Nur die Neustarts bekommen dasselbe Bewertungsbudget wie Tabu Search; der einzelne Abstieg läuft ohne Budget bis zum lokalen Optimum (im Mittel rund 100 Tausend Bewertungen bei 60 Stopps).
         """
     )
 
@@ -233,7 +233,7 @@ st.caption(
 )
 m1, m2, m3, m4 = st.columns(4)
 m1.metric("Beste Tour", f"{a.gap:.1f} %", delta=f"letzte Tour {a.final_gap:.1f} %", delta_color="off", help="Abstand zur Schranke der kürzesten je besuchten Tour; im Delta der der letzten Tour der Kette.")
-m2.metric("Ein Hill-Climbing-Abstieg", f"{a.hc_gap:.1f} %", delta=f"{_fmt_int(a.hc.evaluations)} Bewertungen", delta_color="off", help="Ein Abstieg (beste Verbesserung, dieselbe Zugauswahl wie Tabu Search ohne Gedächtnis) aus derselben Startlösung.")
+m2.metric("Ein Hill-Climbing-Abstieg", f"{a.hc_gap:.1f} %", delta=f"{_fmt_int(a.hc.evaluations)} Bewertungen", delta_color="off", help="Ein Abstieg (beste Verbesserung, dieselbe Zugauswahl wie Tabu Search ohne Gedächtnis) aus derselben Startlösung, ohne Budget bis zum lokalen Optimum - die angezeigten Bewertungen sind das, was er dafür braucht.")
 m3.metric("HC mit Neustarts (voller Rescan)", f"{a.hcr_gap:.1f} %", delta=f"{a.hcr_starts} Abstiege, gleiches Budget", delta_color="off", help="So viele Abstiege aus zufälligen Startlösungen, wie ins Budget passen; die beste Tour zählt.")
 m4.metric("Notfall-Überschreibungen", f"{a.override_rate:.0%}", delta=f"{run.overrides} von {run.iterations}", delta_color="off", help="Anteil der Iterationen, in denen ALLE gültigen Züge tabu waren (zu hohe Tenure für diese Instanz).")
 
@@ -354,7 +354,7 @@ with st.expander("📐 Mathematische Formulierung"):
 **Zugauswahl.** In jeder Iteration: $\pi' = \arg\min_{(i,j) \text{ gültig}} L(\pi \text{ mit Zug } (i,j))$ unter den Zügen, deren neue Kanten nicht tabu sind - **es sei denn**, der Zug verbessert die beste je gefundene Tour (Aspiration: $L(\pi') < L(\pi_{\text{best}})$), dann ist er trotzdem erlaubt. Sind alle gültigen Züge tabu, wird der global beste trotzdem ausgeführt (Notfall).
 Anders als bei Hill Climbing wird der Zug **immer** ausgeführt, auch wenn $L(\pi') > L(\pi)$.
 
-**Kennzahl.** Abstand zur Schranke $= 100 \cdot (L - w)/w$ mit der 1-Baum-Schranke $w$. Vergleichsgrößen bei gleichem Budget: ein Hill-Climbing-Abstieg (beste Verbesserung, dieselbe Zugauswahl ohne Gedächtnis) und Hill Climbing mit Neustarts (voller Rescan, wie in der Wurzel-Demo).
+**Kennzahl.** Abstand zur Schranke $= 100 \cdot (L - w)/w$ mit der 1-Baum-Schranke $w$. Vergleichsgrößen: ein Hill-Climbing-Abstieg (beste Verbesserung, dieselbe Zugauswahl ohne Gedächtnis; ohne Budget, bis zum lokalen Optimum) und Hill Climbing mit Neustarts (voller Rescan, wie in der Wurzel-Demo; bei gleichem Bewertungsbudget wie Tabu Search).
 
 **Grenzen.** (1) Eine Iteration kostet $O(n^2)$ Bewertungen - das nötige Mindestbudget ist viel höher als bei einer Kandidatenliste. (2) Die Tenure ist ein Sweet-Spot-Parameter, kein "länger ist sicherer". (3) Ohne Tabu-Mechanismus pendelt die Suche nach dem ersten lokalen Optimum.
 

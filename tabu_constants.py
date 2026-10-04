@@ -51,7 +51,7 @@ PRESETS = {
     "Großes Budget (1 Million)": _preset(budget=1000000),
     "Große Instanz (200 Stopps, 1 Million)": _preset(n=200, budget=1000000),
 }
-# Mittel über die fünf festen Sweep-Instanzen (Seeds 100000-100004, je drei Ketten-Seeds), Abstand zur Schranke; Hill Climbing bei gleichem Bewertungsbudget
+# Mittel über die fünf festen Sweep-Instanzen (Seeds 100000-100004, je drei Ketten-Seeds), Abstand zur Schranke; Hill Climbing mit Neustarts bei gleichem Bewertungsbudget (der einzelne Abstieg ohne Budget)
 PRESET_HELP = {
     "Standardfall (Voreinstellung)": "60 Stopps, Tenure 20, 200 Tausend Vorschläge: die beste Tour liegt im Mittel 4.19 % über der Schranke - ein Hill-Climbing-Abstieg 7.85 %, Hill Climbing mit Neustarts (voller Rescan) 4.88 %.",
     "Zu kleines Budget (25 Tausend)": "Nur 25 Tausend Vorschläge: 155.1 % über der Schranke - bei nur rund 15 Iterationen (jede bewertet die volle n²/2-Nachbarschaft) kommt die Suche von einer zufälligen Startlösung kaum voran. Ein einzelner Hill-Climbing-Abstieg braucht dieselbe Größenordnung Bewertungen, erreicht aber 7.9 %.",
