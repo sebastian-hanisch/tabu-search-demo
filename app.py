@@ -337,7 +337,7 @@ st.markdown(
 )
 st.caption(
     "Die Nachbarn der Trajektorien-Metaheuristiken-Linie: GRASP (randomisierte Konstruktion, viele Starts) und der Nachbarschafts-Zweig "
-    "(Lin-Kernighan, VLSN, VRP-Nachbarschaften) sind andere Antworten auf dieselbe Schwäche der Wurzel; ALNS braucht eine CVRP-Instanz und ist deshalb hier noch nicht gebaut."
+    "(Lin-Kernighan, VLSN, VRP-Nachbarschaften) sind andere Antworten auf dieselbe Schwäche der Wurzel; ALNS braucht eine CVRP-Instanz und steht deshalb in der alns-demo."
 )
 
 st.markdown("---")
